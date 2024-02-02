@@ -1,0 +1,22 @@
+POSTGRES_SCHEMA: outbox
+POSTGRES_HOST: localhost
+POSTGRES_PORT: 5432
+POSTGRES_DB: outbox
+POSTGRES_USER: outbox
+POSTGRES_PASSWORD: outbox
+
+spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: false
+    hibernate:
+      ddlAuto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:outbox}?currentSchema=${POSTGRES_SCHEMA:outbox}&stringtype=unspecified
+    username: ${POSTGRES_USER:outbox}
+    password: ${POSTGRES_PASSWORD:outbox}
+    driver-class-name: org.postgresql.Driver

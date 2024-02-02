@@ -1,0 +1,6 @@
+POSTGRES_SCHEMA: outbox
+
+spring:
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:postgresql:13.0:///?currentSchema=${POSTGRES_SCHEMA}&stringtype=unspecified
