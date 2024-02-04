@@ -1,0 +1,44 @@
+package com.youtube.patrickzinner.outbox.service
+
+import com.youtube.patrickzinner.outbox.peristence.TaskJpaRepo
+import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.*
+import org.junit.jupiter.api.Test
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
+import org.springframework.test.context.ActiveProfiles
+import org.testcontainers.junit.jupiter.Testcontainers
+import java.util.*
+
+@Testcontainers
+@ActiveProfiles("test")
+@SpringBootTest(webEnvironment = RANDOM_PORT)
+class TaskServiceIT {
+
+    @Autowired
+    lateinit var taskService: TaskService
+
+    @Autowired
+    lateinit var taskJpaRepo: TaskJpaRepo
+
+    @Test
+    fun `create stores task in database`() {
+        // given
+        val task = aTask()
+
+        //when
+        taskService.create(task)
+
+        // then
+        val entity = taskJpaRepo.findById(task.id).orElseThrow()
+        assertThat(entity.id).isEqualTo(task.id)
+        assertThat(entity.name).isEqualTo(task.name)
+    }
+
+    fun aTask(
+            id: UUID = UUID.randomUUID(),
+            name: String = "fix bugs"
+    ) = Task(id, name)
+
+}
