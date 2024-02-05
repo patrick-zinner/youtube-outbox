@@ -6,6 +6,8 @@ POSTGRES_USER: outbox
 POSTGRES_PASSWORD: outbox
 
 spring:
+  kafka:
+    bootstrap-servers: http://localhost:9092
   jpa:
     database: POSTGRESQL
     show-sql: false
