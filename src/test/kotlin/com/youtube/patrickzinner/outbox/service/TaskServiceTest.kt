@@ -1,6 +1,7 @@
 package com.youtube.patrickzinner.outbox.service
 
 import com.youtube.patrickzinner.outbox.peristence.TaskJpaRepo
+import com.youtube.patrickzinner.outbox.peristence.TaskOutboxJpaRepo
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -22,6 +23,9 @@ class TaskServiceIT {
     @Autowired
     lateinit var taskJpaRepo: TaskJpaRepo
 
+    @Autowired
+    lateinit var taskOutboxJpaRepo: TaskOutboxJpaRepo
+
     @Test
     fun `create stores task in database`() {
         // given
@@ -34,6 +38,20 @@ class TaskServiceIT {
         val entity = taskJpaRepo.findById(task.id).orElseThrow()
         assertThat(entity.id).isEqualTo(task.id)
         assertThat(entity.name).isEqualTo(task.name)
+    }
+
+    @Test
+    fun `create stores a task outbox entry in database`() {
+        // given
+        val task = aTask()
+
+        //when
+        taskService.create(task)
+
+        //then
+        val taskOutbox = taskOutboxJpaRepo.findByTaskId(task.id)
+        assertThat(taskOutbox.taskId).isEqualTo(task.id)
+        assertThat(taskOutbox.sentToBus).isFalse()
     }
 
     fun aTask(
