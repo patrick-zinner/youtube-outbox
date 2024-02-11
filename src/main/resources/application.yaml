@@ -25,3 +25,6 @@ spring:
 logging:
   level:
     com.youtube: debug
+    org.apache.kafka: error
+    kafka: error
+    state.change: error
