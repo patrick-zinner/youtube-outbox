@@ -22,3 +22,6 @@ spring:
     username: ${POSTGRES_USER:outbox}
     password: ${POSTGRES_PASSWORD:outbox}
     driver-class-name: org.postgresql.Driver
+logging:
+  level:
+    com.youtube: debug

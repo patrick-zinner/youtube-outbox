@@ -14,7 +14,7 @@ import java.util.*
 @Testcontainers
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-class TaskServiceIT {
+class TaskServiceTest {
 
     @Autowired
     lateinit var taskService: TaskService
