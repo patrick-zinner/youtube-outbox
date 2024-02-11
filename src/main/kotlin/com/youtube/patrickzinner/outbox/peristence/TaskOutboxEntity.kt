@@ -1,8 +1,6 @@
 package com.youtube.patrickzinner.outbox.peristence
 
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import java.time.OffsetDateTime
 import java.util.UUID
 
@@ -11,7 +9,9 @@ import java.util.UUID
 data class TaskOutboxEntity(
         @Id
         val id: UUID,
-        val taskId: UUID,
+        @OneToOne(fetch = FetchType.EAGER)
+        @JoinColumn(name = "task_id")
+        val task: TaskEntity,
         val createdAt: OffsetDateTime,
         val sentToBus: Boolean
 )

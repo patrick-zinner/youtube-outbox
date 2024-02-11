@@ -18,7 +18,7 @@ class TaskService(
         val task = taskRepo.create(task)
         val taskOutbox = TaskOutbox(
                 id = UUID.randomUUID(),
-                taskId = task.id,
+                task = task,
                 createdAt = OffsetDateTime.now(),
                 sentToBus = false
         )

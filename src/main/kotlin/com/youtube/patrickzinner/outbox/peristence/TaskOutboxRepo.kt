@@ -14,20 +14,4 @@ class TaskOutboxRepo(
         )
     }
 
-    fun modelToEntity(taskOutbox: TaskOutbox) =
-            TaskOutboxEntity(
-                    id = taskOutbox.id,
-                    taskId = taskOutbox.taskId,
-                    createdAt = taskOutbox.createdAt,
-                    sentToBus = taskOutbox.sentToBus
-            )
-
-    fun entityToModel(entity: TaskOutboxEntity) =
-            TaskOutbox(
-                    id = entity.id,
-                    taskId = entity.taskId,
-                    createdAt = entity.createdAt,
-                    sentToBus = entity.sentToBus
-            )
-
 }

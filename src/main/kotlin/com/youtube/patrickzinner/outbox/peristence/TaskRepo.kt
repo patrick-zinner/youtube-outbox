@@ -14,13 +14,4 @@ class TaskRepo(
         )
     }
 
-    fun modelToEntity(task: Task) = TaskEntity(
-            id = task.id,
-            name = task.name
-    )
-
-    fun entityToModel(entity: TaskEntity) = Task(
-            id = entity.id,
-            name = entity.name
-    )
 }

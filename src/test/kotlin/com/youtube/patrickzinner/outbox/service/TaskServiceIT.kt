@@ -2,7 +2,6 @@ package com.youtube.patrickzinner.outbox.service
 
 import com.youtube.patrickzinner.outbox.peristence.TaskJpaRepo
 import com.youtube.patrickzinner.outbox.peristence.TaskOutboxJpaRepo
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -50,7 +49,7 @@ class TaskServiceIT {
 
         //then
         val taskOutbox = taskOutboxJpaRepo.findByTaskId(task.id)
-        assertThat(taskOutbox.taskId).isEqualTo(task.id)
+        assertThat(taskOutbox.task.id).isEqualTo(task.id)
         assertThat(taskOutbox.sentToBus).isFalse()
     }
 

@@ -5,7 +5,7 @@ import java.util.*
 
 data class TaskOutbox(
         val id: UUID,
-        val taskId: UUID,
+        val task: Task,
         val createdAt: OffsetDateTime,
         val sentToBus: Boolean
 )
