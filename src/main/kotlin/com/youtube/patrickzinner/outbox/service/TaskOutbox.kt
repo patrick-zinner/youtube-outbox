@@ -8,4 +8,9 @@ data class TaskOutbox(
         val task: Task,
         val createdAt: OffsetDateTime,
         val sentToBus: Boolean
-)
+) {
+    fun markAsSent() : TaskOutbox {
+        require(!sentToBus)
+        return copy(sentToBus = true)
+    }
+}
