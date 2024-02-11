@@ -7,12 +7,12 @@ import java.util.UUID
 
 @Service
 class EventBusService(
-        private val kafkaTemplate: KafkaTemplate<UUID, Task>
+        private val kafkaTemplate: KafkaTemplate<String, Task>
 ) {
 
     fun publishTask(task: Task) {
         log.debug { "Publishing task $task.name to Kafka" }
-        kafkaTemplate.send("tasks", task.id, task)
+        kafkaTemplate.send("tasks", task.id.toString(), task)
     }
 
     companion object {

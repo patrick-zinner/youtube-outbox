@@ -7,13 +7,19 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
+import org.springframework.kafka.test.context.EmbeddedKafka
 import org.springframework.test.context.ActiveProfiles
 import org.testcontainers.junit.jupiter.Testcontainers
+import org.testcontainers.shaded.org.awaitility.Awaitility
 import java.util.*
 
 @Testcontainers
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = RANDOM_PORT)
+@EmbeddedKafka(
+        partitions = 1,
+        ports = [9092]
+)
 class TaskServiceTest {
 
     @Autowired
@@ -51,6 +57,22 @@ class TaskServiceTest {
         val taskOutbox = taskOutboxJpaRepo.findByTaskId(task.id)
         assertThat(taskOutbox.task.id).isEqualTo(task.id)
         assertThat(taskOutbox.sentToBus).isFalse()
+    }
+
+    @Test
+    fun `a created task ends up being delivered to the eventbus`() {
+        // given
+        val task = aTask()
+
+        //when
+        taskService.create(task)
+
+        //then
+        Awaitility.await().untilAsserted {
+            val taskOutbox = taskOutboxJpaRepo.findByTaskId(task.id)
+            assertThat(taskOutbox.task.id).isEqualTo(task.id)
+            assertThat(taskOutbox.sentToBus).isTrue()
+        }
     }
 
     fun aTask(
